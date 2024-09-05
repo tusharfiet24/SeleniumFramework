@@ -1,30 +1,22 @@
-package tusharrathoreacademy;
+package tusharrathoreacademy.tests;
 
-import java.time.Duration;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.io.IOException;
 import org.testng.Assert;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import org.testng.annotations.Test;
+import tusharrathoreacademy.TestComponents.BaseTest;
 import tusharrathoreacademy.pageobjects.CartPage;
 import tusharrathoreacademy.pageobjects.CheckoutPage;
 import tusharrathoreacademy.pageobjects.ConfirmationPage;
-import tusharrathoreacademy.pageobjects.LandingPage;
+import tusharrathoreacademy.pageobjects.OrderPage;
 import tusharrathoreacademy.pageobjects.ProductCatalogue;
 
-public class SubmitOrderTest {
-
-	public static void main(String[] args) {
-
-		String productName = "ZARA COAT 3";
-		WebDriverManager.chromedriver().setup();
-		WebDriver driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		driver.manage().window().maximize();
-		LandingPage landingPage = new LandingPage(driver);
-		landingPage.goTo();
+public class SubmitOrderTest extends BaseTest {
+	String productName = "ZARA COAT 3";
+	
+	@Test
+	public void submitOrder() throws IOException {
 		ProductCatalogue productCatalogue = landingPage.loginApplication("Arjun@gmail.com", "Arjun@1998@");
 		productCatalogue.addProductToCart(productName);
-
 		CartPage cartPage = productCatalogue.goToCartPage();
 		Assert.assertTrue(cartPage.verifyProductDisplay(productName));
 		CheckoutPage checkoutPage = cartPage.goToCheckOut();
@@ -33,6 +25,13 @@ public class SubmitOrderTest {
 		ConfirmationPage confirmationPage = checkoutPage.submitOrder();
 		String confirmText = confirmationPage.getConfirmText();
 		Assert.assertTrue(confirmText.trim().equalsIgnoreCase("Thankyou for the order."));
-		driver.quit();
+	}
+
+	// To verify ZARA COAT 3 is displaying in orders page
+	@Test(dependsOnMethods = { "submitOrder" })
+	public void orderHistoryTest() {
+		ProductCatalogue productCatalogue = landingPage.loginApplication("Arjun@gmail.com", "Arjun@1998@");
+		OrderPage orderPage = productCatalogue.goToOrdersPage();
+		Assert.assertTrue(orderPage.verifyOrderDisplay(productName));
 	}
 }

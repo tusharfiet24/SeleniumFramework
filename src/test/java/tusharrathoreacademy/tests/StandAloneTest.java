@@ -1,4 +1,4 @@
-package tusharrathoreacademy;
+package tusharrathoreacademy.tests;
 
 import java.time.Duration;
 import java.util.List;

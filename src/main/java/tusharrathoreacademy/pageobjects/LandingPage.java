@@ -5,10 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LandingPage {
+import tusharrathoreacademy.AbstractComponents.AbstractComponent;
+
+public class LandingPage extends AbstractComponent {
 	WebDriver driver;
 
 	public LandingPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
@@ -25,11 +28,19 @@ public class LandingPage {
 	@FindBy(name = "login")
 	WebElement submit;
 
+	@FindBy(css = "[class*='flyInOut']")
+	WebElement errorMessage;
+
 	public ProductCatalogue loginApplication(String email, String password) {
 		userEmail.sendKeys(email);
 		userPassword.sendKeys(password);
 		submit.click();
 		return new ProductCatalogue(driver);
+	}
+
+	public String getErrorMessage() {
+		waitForElementToAppear(errorMessage);
+		return errorMessage.getText();
 	}
 
 	public void goTo() {
