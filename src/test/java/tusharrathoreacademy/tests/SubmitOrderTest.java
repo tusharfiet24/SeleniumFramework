@@ -2,6 +2,8 @@ package tusharrathoreacademy.tests;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -38,17 +40,11 @@ public class SubmitOrderTest extends BaseTest {
 	}
 
 	@DataProvider
-	public Object[][] getData() {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("email", "Arjun@gmail.com");
-		map.put("password", "Arjun@1998@");
-		map.put("productName", "ZARA COAT 3");
+	public Object[][] getData() throws IOException {
 
-		HashMap<String, String> map1 = new HashMap<>();
-		map1.put("email", "Govind@gmail.com");
-		map1.put("password", "Govind@1");
-		map1.put("productName", "ADIDAS ORIGINAL");
+		List<HashMap<String, String>> data = getJsonDataToMap(
+				System.getProperty("user.dir") + "\\src\\test\\java\\tusharrathoreacademy\\data\\PurchaseOrder.json");
 
-		return new Object[][] { { map }, { map1 } };
+		return new Object[][] { { data.get(0) }, { data.get(1) } };
 	}
 }
