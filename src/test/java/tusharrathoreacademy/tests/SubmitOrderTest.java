@@ -1,6 +1,7 @@
 package tusharrathoreacademy.tests;
 
 import java.io.IOException;
+import java.util.HashMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -15,11 +16,11 @@ public class SubmitOrderTest extends BaseTest {
 	String productName = "ZARA COAT 3";
 
 	@Test(dataProvider = "getData", groups = { "Purchase" })
-	public void submitOrder(String email, String password, String productName) throws IOException {
-		ProductCatalogue productCatalogue = landingPage.loginApplication(email, password);
-		productCatalogue.addProductToCart(productName);
+	public void submitOrder(HashMap<String, String> map) throws IOException {
+		ProductCatalogue productCatalogue = landingPage.loginApplication(map.get("email"), map.get("password"));
+		productCatalogue.addProductToCart(map.get("productName"));
 		CartPage cartPage = productCatalogue.goToCartPage();
-		Assert.assertTrue(cartPage.verifyProductDisplay(productName));
+		Assert.assertTrue(cartPage.verifyProductDisplay(map.get("productName")));
 		CheckoutPage checkoutPage = cartPage.goToCheckOut();
 		checkoutPage.enterDetails("Ind");
 		checkoutPage.selectCountry("India");
@@ -38,7 +39,16 @@ public class SubmitOrderTest extends BaseTest {
 
 	@DataProvider
 	public Object[][] getData() {
-		return new Object[][] { { "Arjun@gmail.com", "Arjun@1998@", "ZARA COAT 3" },
-				{ "Govind@gmail.com", "Govind@1", "ADIDAS ORIGINAL" } };
+		HashMap<String, String> map = new HashMap<>();
+		map.put("email", "Arjun@gmail.com");
+		map.put("password", "Arjun@1998@");
+		map.put("productName", "ZARA COAT 3");
+
+		HashMap<String, String> map1 = new HashMap<>();
+		map1.put("email", "Govind@gmail.com");
+		map1.put("password", "Govind@1");
+		map1.put("productName", "ADIDAS ORIGINAL");
+
+		return new Object[][] { { map }, { map1 } };
 	}
 }

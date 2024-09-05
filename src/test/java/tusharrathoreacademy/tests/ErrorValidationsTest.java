@@ -8,14 +8,14 @@ import tusharrathoreacademy.pageobjects.CartPage;
 import tusharrathoreacademy.pageobjects.ProductCatalogue;
 
 public class ErrorValidationsTest extends BaseTest {
-	
-	@Test(groups= {"ErrorHandling"})
+
+	@Test(groups = { "ErrorHandling" })
 	public void loginErrorValidation() throws IOException {
 
 		landingPage.loginApplication("Arjun@gmail.com", "Tushar@jkl8@");
 		Assert.assertEquals(landingPage.getErrorMessage(), "Incorrect email or password.");
 	}
-	
+
 	@Test()
 	public void productErrorValidation() throws IOException {
 
