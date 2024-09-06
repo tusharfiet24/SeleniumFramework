@@ -4,12 +4,13 @@ import java.io.IOException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tusharrathoreacademy.TestComponents.BaseTest;
+import tusharrathoreacademy.TestComponents.Retry;
 import tusharrathoreacademy.pageobjects.CartPage;
 import tusharrathoreacademy.pageobjects.ProductCatalogue;
 
 public class ErrorValidationsTest extends BaseTest {
 
-	@Test(groups = { "ErrorHandling" })
+	@Test(groups = { "ErrorHandling" }, retryAnalyzer = Retry.class)
 	public void loginErrorValidation() throws IOException {
 
 		landingPage.loginApplication("Arjun@gmail.com", "Tushar@jkl8@");
