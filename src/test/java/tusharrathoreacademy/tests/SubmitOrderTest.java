@@ -1,9 +1,12 @@
 package tusharrathoreacademy.tests;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,6 +40,13 @@ public class SubmitOrderTest extends BaseTest {
 		ProductCatalogue productCatalogue = landingPage.loginApplication("Arjun@gmail.com", "Arjun@1998@");
 		OrderPage orderPage = productCatalogue.goToOrdersPage();
 		Assert.assertTrue(orderPage.verifyOrderDisplay(productName));
+	}
+	
+	public String getScreenshot(String testCaseName) throws IOException {
+		TakesScreenshot ts = (TakesScreenshot)driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(source, new File(System.getProperty("user.dir") + "//reports//" + testCaseName + ".png"));
+		return System.getProperty("user.dir") + "//reports//" + testCaseName + ".png";
 	}
 
 	@DataProvider
