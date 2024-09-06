@@ -35,7 +35,8 @@ public class BaseTest {
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")
 				+ "\\src\\main\\java\\tusharrathoreacademy\\resources\\GlobalData.properties");
 		prop.load(fis);
-		String browser = prop.getProperty("browser");
+		String browser = System.getProperty("browser") == null ? prop.getProperty("browser")
+				: System.getProperty("browser");
 
 		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
@@ -65,9 +66,9 @@ public class BaseTest {
 
 		return data;
 	}
-	
+
 	public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
-		TakesScreenshot ts = (TakesScreenshot)driver;
+		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(source, new File(System.getProperty("user.dir") + "//reports//" + testCaseName + ".png"));
 		return System.getProperty("user.dir") + "//reports//" + testCaseName + ".png";
@@ -86,3 +87,5 @@ public class BaseTest {
 	}
 
 }
+
+//mvn test -PRegression -Dbrowser=firefox
