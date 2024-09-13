@@ -75,10 +75,11 @@ public class BaseTest {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	public void launchApplication() throws IOException {
+	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
+		return landingPage;
 	}
 
 	@AfterMethod(alwaysRun = true)
